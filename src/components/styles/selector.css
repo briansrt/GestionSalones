@@ -1,0 +1,88 @@
+.layout {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f9fafb, #f3f4f6);
+  }
+  
+  .header {
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .header-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700;
+    color: #111827; /* text-gray-900 */
+  }
+  
+  .main {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+  }
+  
+  .card {
+    background-color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    max-width: 28rem;
+    margin: 0 auto;
+  }
+  
+  .card-header {
+    background-color: #21242b; /* .bg-primary (ajustable según tu configuración Tailwind) */
+    color: #ffffff; /* .text-primary-foreground */
+    padding: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 600;
+  }
+  
+  .card-subtitle {
+    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+  }
+  
+  .salon-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.375rem;
+    font-size: 1rem;
+  }
+  
+  .button-select {
+    background-color: #21242b; /* .bg-primary (ajustable según tu configuración Tailwind) */
+    color: #ffffff; /* .text-primary-foreground */
+    padding: 0.9rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .button-select:hover {
+    background-color: #2563eb; /* .bg-primary-hover (ajustable según tu configuración Tailwind) */
+  }
