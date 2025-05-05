@@ -21,7 +21,7 @@ export default function Salon(){
           setIsLoading(true);
       
           try {
-            const response = await fetch('http://localhost:4000/salones/chatbot', {
+            const response = await fetch('https://gestion-salones-back.vercel.app/salones/chatbot', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export default function Salon(){
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:4000/salones/salon', {
+                const response = await fetch('https://gestion-salones-back.vercel.app/salones/salon', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
