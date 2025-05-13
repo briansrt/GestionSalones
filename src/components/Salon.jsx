@@ -1,4 +1,4 @@
-import {React, useEffect, useState, useRef} from 'react';
+import {React, useEffect, useState} from 'react';
 import { useParams, Link } from 'react-router';
 import { ChevronLeft } from 'lucide-react';
 import './styles/salon.css';
@@ -6,76 +6,12 @@ import './styles/salon.css';
 export default function Salon(){
     const { id } = useParams();
     const [datosSalon, setDatosSalon] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(0);
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const scrollAreaRef = useRef();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (input.trim()) {
-          const userMessage = { id: Date.now(), role: 'user', content: input };
-          setMessages((prev) => [...prev, userMessage]);
-          setInput('');
-          setIsLoading(true);
-      
-          try {
-            const response = await fetch('https://gestion-salones-back.vercel.app/salones/chatbot', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                pregunta: input,
-                salon: datosSalon,  // Aquí envías los datos del salón
-              }),
-            });
-      
-            const data = await response.json();
-      
-            if (response.ok) {
-              const botMessage = {
-                id: Date.now() + 1,
-                role: 'assistant',
-                content: data.respuesta || 'Sin respuesta del servidor.',
-              };
-              setMessages((prev) => [...prev, botMessage]);
-            } else {
-              const errorMessage = {
-                id: Date.now() + 1,
-                role: 'assistant',
-                content: 'Error en la respuesta del servidor.',
-              };
-              setMessages((prev) => [...prev, errorMessage]);
-            }
-          } catch {
-            const errorMessage = {
-              id: Date.now() + 1,
-              role: 'assistant',
-              content: 'Error al conectar con el servidor.',
-            };
-            setMessages((prev) => [...prev, errorMessage]);
-          } finally {
-            setIsLoading(false);
-          }
-        }
-      };
-      
-    
-      const handleInputChange = (e) => {
-        setInput(e.target.value);
-      };
-    
-      useEffect(() => {
-        scrollAreaRef.current?.scrollTo(0, scrollAreaRef.current.scrollHeight);
-      }, [messages]);
-    
+    const [selectedImage, setSelectedImage] = useState(0);    
     
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://gestion-salones-back.vercel.app/salones/salon', {
+                const response = await fetch('https://gestion-salones.vercel.app/javeriana/salon', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -176,122 +112,35 @@ export default function Salon(){
                             <div>
                                 <h3 className="info-label">Equipamiento:</h3>
                                 <ul className="info-list">
-                                    {(Array.isArray(datosSalon.equipamientoTecnologico) ? datosSalon.equipamientoTecnologico : [datosSalon.equipamientoTecnologico])
-                                    .map((item, index) => (
+                                    {Array.isArray(datosSalon.equipamientoTecnologico) && datosSalon.equipamientoTecnologico.length > 0 ? (
+                                        datosSalon.equipamientoTecnologico.map((item, index) => (
                                         <li key={index}>{item}</li>
-                                    ))}
+                                        ))
+                                    ) : datosSalon.equipamientoTecnologico ? (
+                                        <li>{datosSalon.equipamientoTecnologico}</li>
+                                    ) : (
+                                        <li>No hay datos</li>
+                                    )}
                                 </ul>
                             </div>
                             <div>
                                 <h3 className="info-label">Tipo de Sila:</h3>
-                                <p>{datosSalon.tipoSilla}</p>
+                                <p>{datosSalon.tipoSilla || "No hay datos"}</p>
                             </div>
                             <div>
                                 <h3 className="info-label">Tipo de Tablero:</h3>
-                                <p>{datosSalon.tipoTablero}</p>
+                                <p>{datosSalon.tipoTablero || "No hay datos"}</p>
                             </div>
                             <div>
                                 <h3 className="info-label">Tomacorriente:</h3>
-                                <p>{datosSalon.tomacorriente}</p>
+                                <p>{datosSalon.tomacorriente || "No hay datos"}</p>
                             </div>
                             <div>
                                 <h3 className="info-label">Movilidad:</h3>
-                                <p>{datosSalon.movilidad}</p>
+                                <p>{datosSalon.movilidad || "No hay datos"}</p>
                             </div>
                         </div>
                     </div>
-                </section>
-                <section className="card-bot">
-                <header className="card-header-bot">
-                    <h2 className="card-title-bot">
-                    <div className="status-indicator"></div>
-                    Asistente Virtual
-                    </h2>
-                </header>
-
-                <main className="card-content-bot">
-                    <section className="scroll-area" ref={scrollAreaRef}>
-                    <div className="messages">
-                        {messages.length === 0 ? (
-                        <div className="empty-message">
-                            <div className="icon-container">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="icon"
-                            >
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            </div>
-                            <h3>¿Cómo puedo ayudarte?</h3>
-                            <p>Pregúntame sobre este salón para obtener información</p>
-                        </div>
-                        ) : (
-                        messages.map((message) => (
-                            <div key={message.id} className={`message ${message.role === 'user' ? 'user' : 'assistant'}`}>
-                            <div className={`message-content ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}>
-                                <div className={`avatar ${message.role === 'user' ? 'user-avatar' : 'assistant-avatar'}`}>
-                                {message.role === 'user' ? 'U' : 'A'}
-                                </div>
-                                <div className="message-text">
-                                {message.content}
-                                </div>
-                            </div>
-                            </div>
-                        ))
-                        )}
-
-                        {isLoading && (
-                        <div className="message assistant">
-                            <div className="message-content assistant-message">
-                            <div className="avatar assistant-avatar">A</div>
-                            <div className="message-text typing-indicator">
-                                <div className="dot"></div>
-                                <div className="dot"></div>
-                                <div className="dot"></div>
-                            </div>
-                            </div>
-                        </div>
-                        )}
-                    </div>
-                    </section>
-
-                    <footer className="input-area">
-                    <form onSubmit={handleSubmit} className="form">
-                        <input
-                        type="text"
-                        value={input}
-                        onChange={handleInputChange}
-                        placeholder="Pregunta algo sobre este salón..."
-                        className="input"
-                        disabled={isLoading}
-                        />
-                        <button type="submit" className="send-button" disabled={isLoading || !input.trim()}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="send-icon"
-                        >
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                        </button>
-                    </form>
-                    </footer>
-                </main>
                 </section>
 
             </main>
