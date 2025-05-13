@@ -102,7 +102,7 @@ export default function Selector() {
       setIsLoadingSalones(true);
       try {
         const response = await fetch(
-          "https://gestion-salones.vercel.app-back/javeriana/GetAllsalones"
+          "https://gestion-salones-back.vercel.app/javeriana/GetAllsalones"
         );
         const data = await response.json();
         setTodosSalones(data);
