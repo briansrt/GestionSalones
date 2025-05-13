@@ -11,7 +11,7 @@ export default function Salon(){
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://gestion-salones.vercel.app/javeriana/salon', {
+                const response = await fetch('https://gestion-salones-back.vercel.app/javeriana/salon', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -27,7 +27,7 @@ export default function Selector() {
 
       try {
         const response = await fetch(
-          "https://gestion-salones.vercel.app/javeriana/chatbot",
+          "https://gestion-salones-back.vercel.app/javeriana/chatbot",
           {
             method: "POST",
             headers: {
@@ -102,7 +102,7 @@ export default function Selector() {
       setIsLoadingSalones(true);
       try {
         const response = await fetch(
-          "https://gestion-salones.vercel.app/javeriana/GetAllsalones"
+          "https://gestion-salones.vercel.app-back/javeriana/GetAllsalones"
         );
         const data = await response.json();
         setTodosSalones(data);
