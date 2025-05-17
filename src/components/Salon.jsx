@@ -70,7 +70,7 @@ export default function Salon(){
                     {Array.isArray(datosSalon.foto) ? (
                         datosSalon.foto.map((img, index) => (
                             <img
-                            key={index}
+                            key={img ? `${img}-${index}` : `no-disponible-${index}`}
                             src={img || "No disponible"}
                             alt={`Miniatura del salón ${datosSalon.salon}`}
                             className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
@@ -79,6 +79,7 @@ export default function Salon(){
                         ))
                         ) : datosSalon.foto ? (
                         <img
+                            key={datosSalon.foto}
                             src={datosSalon.foto}
                             alt={`Miniatura del salón ${datosSalon.salon}`}
                             className={`thumbnail ${selectedImage === 0 ? 'active' : ''}`}
