@@ -5,7 +5,7 @@ import './styles/salon.css';
 
 export default function Salon(){
     const { id } = useParams();
-    const [datosSalon, setDatosSalon] = useState([]);
+    const [datosSalon, setDatosSalon] = useState({});
     const [selectedImage, setSelectedImage] = useState(0);    
     
     useEffect(() => {
@@ -59,15 +59,15 @@ export default function Salon(){
                 <div className="gallery-container">
                     <div className="main-image">
                     <img
-                        src={Array.isArray(datosSalon.foto)
+                        src={Array.isArray(datosSalon.foto) && datosSalon.foto[selectedImage]
                             ? datosSalon.foto[selectedImage]
                             : datosSalon.foto || "No disponible"}
-                        alt={`Imagen del salon ${datosSalon.salon}`}
+                        alt={`Imagen del salon ${datosSalon.salon || 'No disponible'}`}
                         className="gallery-image"
                     />
                     </div>
                     <div className="thumbnails">
-                    {Array.isArray(datosSalon.foto) ? (
+                    {Array.isArray(datosSalon.foto) && datosSalon.foto.length > 0 ? (
                         datosSalon.foto.map((img, index) => (
                             <img
                             key={img ? `${img}-${index}` : `no-disponible-${index}`}
@@ -79,7 +79,6 @@ export default function Salon(){
                         ))
                         ) : datosSalon.foto ? (
                         <img
-                            key={datosSalon.foto}
                             src={datosSalon.foto}
                             alt={`Miniatura del salón ${datosSalon.salon}`}
                             className={`thumbnail ${selectedImage === 0 ? 'active' : ''}`}
